@@ -191,6 +191,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "ap-2026-common-code-geometry"
+version = "0.1.0"
+source = "git+https://github.com/SharedCode-UniTn-AP-2026/Common_Code-AP_2026.git?rev=5a2c06158f32825cc7afe438b0e96615894d18be#5a2c06158f32825cc7afe438b0e96615894d18be"
+dependencies = [
+ "ap-2026-common-code-shared",
+ "thiserror 2.0.21",
+]
+
+[[package]]
+name = "ap-2026-common-code-shared"
+version = "0.1.0"
+source = "git+https://github.com/SharedCode-UniTn-AP-2026/Common_Code-AP_2026.git?rev=5a2c06158f32825cc7afe438b0e96615894d18be#5a2c06158f32825cc7afe438b0e96615894d18be"
+
+[[package]]
 name = "arboard"
 version = "3.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -568,6 +582,7 @@ dependencies = [
 name = "cartographer"
 version = "0.1.0"
 dependencies = [
+ "ap-2026-common-code-geometry",
  "eframe",
 ]
 

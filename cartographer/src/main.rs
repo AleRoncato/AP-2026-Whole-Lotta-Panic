@@ -1,4 +1,5 @@
 use eframe::egui;
+use geometry::{Cell, Direction};
 
 const RADIUS: f32 = 40.0;
 const WATER_FILL_COLOR: egui::Color32 = egui::Color32::from_rgb(24, 70, 103);
@@ -12,11 +13,16 @@ fn main() -> eframe::Result {
 
             let center = area.rect.center();
 
-            draw_water_tile(&painter, center);
+            let origin = Cell { q: 0, r: 0 };
+            let cells = [
+                origin,
+                origin.neighbour(Direction::East),
+                origin.neighbour(Direction::SouthEast),
+            ];
 
-            let tile_width = 3.0_f32.sqrt() * RADIUS;
-            let right_center = center + egui::vec2(tile_width, 0.0);
-            draw_water_tile(&painter, right_center);
+            for cell in cells {
+                draw_water_tile(&painter, center + hex_offset(cell));
+            }
         });
     })
 }
@@ -35,4 +41,15 @@ fn draw_water_tile(painter: &egui::Painter, center: egui::Pos2) {
         WATER_FILL_COLOR,
         egui::Stroke::new(STROKE_WIDTH, WATER_STROKE_COLOR),
     ));
+}
+
+fn hex_offset(cell: Cell) -> egui::Vec2 {
+    let q = cell.q as f32;
+    let r = cell.r as f32;
+
+    let width = 3.0_f32.sqrt() * RADIUS;
+    let x = width * (q + r / 2.0);
+    let y = r * (1.5 * RADIUS);
+
+    egui::vec2(x, y)
 }

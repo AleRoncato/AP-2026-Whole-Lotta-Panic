@@ -5,3 +5,4 @@ edition = "2024"
 
 [dependencies]
 eframe = "0.37"
+geometry = { package = "ap-2026-common-code-geometry", git = "https://github.com/SharedCode-UniTn-AP-2026/Common_Code-AP_2026.git", rev = "5a2c06158f32825cc7afe438b0e96615894d18be" }
