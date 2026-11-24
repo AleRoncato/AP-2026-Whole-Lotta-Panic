@@ -12,19 +12,27 @@ fn main() -> eframe::Result {
 
             let center = area.rect.center();
 
-            // Calculate the hexagon's 6 corners' position.
-            // Start half a step into the rotation to get a pointy-top hexagon.
-            // TAU == 2 * PI, thus dividing it into 6 yields 6 corners.
-            let corners = [0.5_f32, 1.5, 2.5, 3.5, 4.5, 5.5].map(|step| {
-                let angle = (std::f32::consts::TAU / 6.0) * step;
-                center + egui::vec2(RADIUS * angle.cos(), RADIUS * angle.sin())
-            });
+            draw_water_tile(&painter, center);
 
-            painter.add(egui::Shape::convex_polygon(
-                corners.to_vec(),
-                WATER_FILL_COLOR,
-                egui::Stroke::new(STROKE_WIDTH, WATER_STROKE_COLOR),
-            ));
+            let tile_width = 3.0_f32.sqrt() * RADIUS;
+            let right_center = center + egui::vec2(tile_width, 0.0);
+            draw_water_tile(&painter, right_center);
         });
     })
+}
+
+fn draw_water_tile(painter: &egui::Painter, center: egui::Pos2) {
+    // Calculate the hexagon's 6 corners' position.
+    // Start half a step into the rotation to get a pointy-top hexagon.
+    // TAU == 2 * PI, thus dividing it into 6 yields 6 corners.
+    let corners = [0.5_f32, 1.5, 2.5, 3.5, 4.5, 5.5].map(|step| {
+        let angle = (std::f32::consts::TAU / 6.0) * step;
+        center + egui::vec2(RADIUS * angle.cos(), RADIUS * angle.sin())
+    });
+
+    painter.add(egui::Shape::convex_polygon(
+        corners.to_vec(),
+        WATER_FILL_COLOR,
+        egui::Stroke::new(STROKE_WIDTH, WATER_STROKE_COLOR),
+    ));
 }
