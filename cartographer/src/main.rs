@@ -1,5 +1,6 @@
 use eframe::egui;
 use geometry::{Cell, DefaultMap, Map, Terrain};
+use shared::IslandId;
 
 const HEX_RADIUS: f32 = 40.0;
 const MAP_RADIUS: u32 = 2;
@@ -21,6 +22,7 @@ const STROKE_WIDTH: f32 = 2.0;
 fn main() -> eframe::Result {
     let origin = Cell { q: 0, r: 0 };
     let cliff = Cell { q: 1, r: 0 };
+    let island = Cell { q: -1, r: 0 };
 
     let map = DefaultMap::try_new(
         MAP_RADIUS,
@@ -29,6 +31,8 @@ fn main() -> eframe::Result {
                 (cell, Terrain::Rock)
             } else if cell == cliff {
                 (cell, Terrain::Cliff)
+            } else if cell == island {
+                (cell, Terrain::Island(IslandId(0)))
             } else {
                 (cell, Terrain::Clear)
             }
