@@ -1,5 +1,5 @@
 use eframe::egui;
-use geometry::{Cell, Terrain};
+use geometry::{Cell, DefaultMap, Map, Terrain};
 
 const HEX_RADIUS: f32 = 40.0;
 const MAP_RADIUS: u32 = 2;
@@ -10,26 +10,42 @@ const WATER_STROKE_COLOR: egui::Color32 = egui::Color32::from_rgb(68, 117, 145);
 const ROCK_FILL_COLOR: egui::Color32 = egui::Color32::from_rgb(89, 97, 108);
 const ROCK_STROKE_COLOR: egui::Color32 = egui::Color32::from_rgb(159, 170, 182);
 
+const CLIFF_FILL_COLOR: egui::Color32 = egui::Color32::from_rgb(100, 72, 52);
+const CLIFF_STROKE_COLOR: egui::Color32 = egui::Color32::from_rgb(171, 132, 94);
+
 const ISLAND_FILL_COLOR: egui::Color32 = egui::Color32::from_rgb(193, 165, 109);
 const ISLAND_STROKE_COLOR: egui::Color32 = egui::Color32::from_rgb(229, 207, 157);
 
 const STROKE_WIDTH: f32 = 2.0;
 
 fn main() -> eframe::Result {
-    eframe::run_ui_native("Cartographer", eframe::NativeOptions::default(), |ui, _frame| {
+    let origin = Cell { q: 0, r: 0 };
+    let cliff = Cell { q: 1, r: 0 };
+
+    let map = DefaultMap::try_new(
+        MAP_RADIUS,
+        origin.disc(MAP_RADIUS).map(|cell| {
+            if cell == origin {
+                (cell, Terrain::Rock)
+            } else if cell == cliff {
+                (cell, Terrain::Cliff)
+            } else {
+                (cell, Terrain::Clear)
+            }
+        }),
+    )
+    .map_err(|error| eframe::Error::AppCreation(Box::new(error)))?;
+
+    eframe::run_ui_native("Cartographer", eframe::NativeOptions::default(), move |ui, _frame| {
         egui::CentralPanel::default().show(ui, |ui| {
             let (area, painter) = ui.allocate_painter(ui.available_size(), egui::Sense::hover());
 
             let center = area.rect.center();
 
-            let origin = Cell { q: 0, r: 0 };
-
             for cell in origin.disc(MAP_RADIUS) {
-                let mut terrain = Terrain::Clear;
-                if cell == origin {
-                    terrain = Terrain::Rock;
+                if let Some(terrain) = map.terrain(cell) {
+                    draw_tile(&painter, center + hex_offset(cell), terrain);
                 }
-                draw_tile(&painter, center + hex_offset(cell), terrain);
             }
         });
     })
@@ -46,7 +62,8 @@ fn draw_tile(painter: &egui::Painter, center: egui::Pos2, terrain: Terrain) {
 
     let (fill_color, stroke_color) = match terrain {
         Terrain::Clear => (WATER_FILL_COLOR, WATER_STROKE_COLOR),
-        Terrain::Rock | Terrain::Cliff => (ROCK_FILL_COLOR, ROCK_STROKE_COLOR),
+        Terrain::Rock => (ROCK_FILL_COLOR, ROCK_STROKE_COLOR),
+        Terrain::Cliff => (CLIFF_FILL_COLOR, CLIFF_STROKE_COLOR),
         Terrain::Island(_) => (ISLAND_FILL_COLOR, ISLAND_STROKE_COLOR),
     };
 
