@@ -1,0 +1,3 @@
+[workspace]
+members = ["admiralty", "cartographer", "chart", "harness", "islands", "ship"]
+resolver = "3"
