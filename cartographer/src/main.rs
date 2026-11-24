@@ -3,7 +3,9 @@ use geometry::{Cell, DefaultMap, Map, Terrain};
 use shared::IslandId;
 
 const HEX_RADIUS: f32 = 40.0;
-const MAP_RADIUS: u32 = 2;
+const SHIP_RADIUS: f32 = 20.0;
+
+const MAP_RADIUS: u32 = 3;
 
 const WATER_FILL_COLOR: egui::Color32 = egui::Color32::from_rgb(23, 66, 94);
 const WATER_STROKE_COLOR: egui::Color32 = egui::Color32::from_rgb(68, 117, 145);
@@ -16,6 +18,33 @@ const CLIFF_STROKE_COLOR: egui::Color32 = egui::Color32::from_rgb(171, 132, 94);
 
 const ISLAND_FILL_COLOR: egui::Color32 = egui::Color32::from_rgb(193, 165, 109);
 const ISLAND_STROKE_COLOR: egui::Color32 = egui::Color32::from_rgb(229, 207, 157);
+
+const SHIPS_COLORS: [(egui::Color32, egui::Color32); 6] = [
+    (
+        egui::Color32::from_rgb(255, 100, 100),
+        egui::Color32::from_rgb(111, 25, 36),
+    ), // Red
+    (
+        egui::Color32::from_rgb(255, 165, 70),
+        egui::Color32::from_rgb(125, 52, 14),
+    ), // Orange
+    (
+        egui::Color32::from_rgb(255, 225, 80),
+        egui::Color32::from_rgb(112, 82, 12),
+    ), // Yellow
+    (
+        egui::Color32::from_rgb(100, 230, 145),
+        egui::Color32::from_rgb(19, 91, 54),
+    ), // Green
+    (
+        egui::Color32::from_rgb(90, 200, 255),
+        egui::Color32::from_rgb(17, 66, 114),
+    ), // Blue
+    (
+        egui::Color32::from_rgb(205, 135, 255),
+        egui::Color32::from_rgb(76, 34, 119),
+    ), // Purple
+];
 
 const STROKE_WIDTH: f32 = 2.0;
 
@@ -50,6 +79,20 @@ fn main() -> eframe::Result {
                 if let Some(terrain) = map.terrain(cell) {
                     draw_tile(&painter, center + hex_offset(cell), terrain);
                 }
+            }
+
+            let half_base = 3.0_f32.sqrt() * SHIP_RADIUS / 2.0;
+
+            for (cell, (fill, stroke_color)) in map.corners().into_iter().zip(SHIPS_COLORS) {
+                let ship_center = center + hex_offset(cell);
+                let corners = vec![
+                    ship_center + egui::vec2(0.0, -SHIP_RADIUS),
+                    ship_center + egui::vec2(half_base, SHIP_RADIUS / 2.0),
+                    ship_center + egui::vec2(-half_base, SHIP_RADIUS / 2.0),
+                ];
+
+                let stroke = egui::Stroke::new(STROKE_WIDTH, stroke_color);
+                painter.add(egui::Shape::convex_polygon(corners, fill, stroke));
             }
         });
     })
