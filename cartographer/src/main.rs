@@ -81,19 +81,7 @@ fn main() -> eframe::Result {
                 }
             }
 
-            let half_base = 3.0_f32.sqrt() * SHIP_RADIUS / 2.0;
-
-            for (cell, (fill, stroke_color)) in map.corners().into_iter().zip(SHIPS_COLORS) {
-                let ship_center = center + hex_offset(cell);
-                let corners = vec![
-                    ship_center + egui::vec2(0.0, -SHIP_RADIUS),
-                    ship_center + egui::vec2(half_base, SHIP_RADIUS / 2.0),
-                    ship_center + egui::vec2(-half_base, SHIP_RADIUS / 2.0),
-                ];
-
-                let stroke = egui::Stroke::new(STROKE_WIDTH, stroke_color);
-                painter.add(egui::Shape::convex_polygon(corners, fill, stroke));
-            }
+            draw_corner_ships(&painter, center, &map);
         });
     })
 }
@@ -119,6 +107,22 @@ fn draw_tile(painter: &egui::Painter, center: egui::Pos2, terrain: Terrain) {
         fill_color,
         egui::Stroke::new(STROKE_WIDTH, stroke_color),
     ));
+}
+
+fn draw_corner_ships(painter: &egui::Painter, center: egui::Pos2, map: &DefaultMap) {
+    let half_base = 3.0_f32.sqrt() * SHIP_RADIUS / 2.0;
+
+    for (cell, (fill, stroke_color)) in map.corners().into_iter().zip(SHIPS_COLORS) {
+        let ship_center = center + hex_offset(cell);
+        let corners = vec![
+            ship_center + egui::vec2(0.0, -SHIP_RADIUS),
+            ship_center + egui::vec2(half_base, SHIP_RADIUS / 2.0),
+            ship_center + egui::vec2(-half_base, SHIP_RADIUS / 2.0),
+        ];
+
+        let stroke = egui::Stroke::new(STROKE_WIDTH, stroke_color);
+        painter.add(egui::Shape::convex_polygon(corners, fill, stroke));
+    }
 }
 
 #[allow(clippy::cast_precision_loss, reason = "Rendering uses f32 screen coordinates.")]
