@@ -51,7 +51,7 @@ const STROKE_WIDTH: f32 = 2.0;
 fn main() -> eframe::Result {
     let origin = Cell { q: 0, r: 0 };
     let cliff = Cell { q: 1, r: 0 };
-    let island = Cell { q: -1, r: 0 };
+    let island_cells = [Cell { q: -1, r: 0 }, Cell { q: -1, r: 1 }];
 
     let map = DefaultMap::try_new(
         MAP_RADIUS,
@@ -60,7 +60,7 @@ fn main() -> eframe::Result {
                 (cell, Terrain::Rock)
             } else if cell == cliff {
                 (cell, Terrain::Cliff)
-            } else if cell == island {
+            } else if island_cells.contains(&cell) {
                 (cell, Terrain::Island(IslandId(0)))
             } else {
                 (cell, Terrain::Clear)
