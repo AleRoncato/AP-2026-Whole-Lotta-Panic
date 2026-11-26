@@ -4,3 +4,6 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+common_shared = {workspace = true}
+common_clues = {workspace = true}
+geometry = {workspace = true}
