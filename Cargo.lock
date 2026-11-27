@@ -137,8 +137,8 @@ name = "admiralty"
 version = "0.1.0"
 dependencies = [
  "ap-2026-common-code-clues",
- "ap-2026-common-code-geometry 0.1.0 (git+https://github.com/SharedCode-UniTn-AP-2026/Common_Code-AP_2026.git?rev=748f76edc5b748366c731f1d0949f2bdd492b1c0)",
- "ap-2026-common-code-shared 0.1.0 (git+https://github.com/SharedCode-UniTn-AP-2026/Common_Code-AP_2026.git?rev=748f76edc5b748366c731f1d0949f2bdd492b1c0)",
+ "ap-2026-common-code-geometry",
+ "ap-2026-common-code-shared",
 ]
 
 [[package]]
@@ -200,16 +200,7 @@ name = "ap-2026-common-code-clues"
 version = "0.1.0"
 source = "git+https://github.com/SharedCode-UniTn-AP-2026/Common_Code-AP_2026.git?rev=748f76edc5b748366c731f1d0949f2bdd492b1c0#748f76edc5b748366c731f1d0949f2bdd492b1c0"
 dependencies = [
- "ap-2026-common-code-geometry 0.1.0 (git+https://github.com/SharedCode-UniTn-AP-2026/Common_Code-AP_2026.git?rev=748f76edc5b748366c731f1d0949f2bdd492b1c0)",
-]
-
-[[package]]
-name = "ap-2026-common-code-geometry"
-version = "0.1.0"
-source = "git+https://github.com/SharedCode-UniTn-AP-2026/Common_Code-AP_2026.git?rev=5a2c06158f32825cc7afe438b0e96615894d18be#5a2c06158f32825cc7afe438b0e96615894d18be"
-dependencies = [
- "ap-2026-common-code-shared 0.1.0 (git+https://github.com/SharedCode-UniTn-AP-2026/Common_Code-AP_2026.git?rev=5a2c06158f32825cc7afe438b0e96615894d18be)",
- "thiserror 2.0.21",
+ "ap-2026-common-code-geometry",
 ]
 
 [[package]]
@@ -217,14 +208,9 @@ name = "ap-2026-common-code-geometry"
 version = "0.1.0"
 source = "git+https://github.com/SharedCode-UniTn-AP-2026/Common_Code-AP_2026.git?rev=748f76edc5b748366c731f1d0949f2bdd492b1c0#748f76edc5b748366c731f1d0949f2bdd492b1c0"
 dependencies = [
- "ap-2026-common-code-shared 0.1.0 (git+https://github.com/SharedCode-UniTn-AP-2026/Common_Code-AP_2026.git?rev=748f76edc5b748366c731f1d0949f2bdd492b1c0)",
+ "ap-2026-common-code-shared",
  "thiserror 2.0.21",
 ]
-
-[[package]]
-name = "ap-2026-common-code-shared"
-version = "0.1.0"
-source = "git+https://github.com/SharedCode-UniTn-AP-2026/Common_Code-AP_2026.git?rev=5a2c06158f32825cc7afe438b0e96615894d18be#5a2c06158f32825cc7afe438b0e96615894d18be"
 
 [[package]]
 name = "ap-2026-common-code-shared"
@@ -609,8 +595,8 @@ dependencies = [
 name = "cartographer"
 version = "0.1.0"
 dependencies = [
- "ap-2026-common-code-geometry 0.1.0 (git+https://github.com/SharedCode-UniTn-AP-2026/Common_Code-AP_2026.git?rev=5a2c06158f32825cc7afe438b0e96615894d18be)",
- "ap-2026-common-code-shared 0.1.0 (git+https://github.com/SharedCode-UniTn-AP-2026/Common_Code-AP_2026.git?rev=5a2c06158f32825cc7afe438b0e96615894d18be)",
+ "ap-2026-common-code-geometry",
+ "ap-2026-common-code-shared",
  "eframe",
 ]
 
@@ -2892,7 +2878,9 @@ dependencies = [
 name = "ship"
 version = "0.1.0"
 dependencies = [
+ "ap-2026-common-code-clues",
  "ap-2026-common-code-geometry",
+ "ap-2026-common-code-shared",
 ]
 
 [[package]]

@@ -6,5 +6,7 @@ mod diplomacy;
 pub mod routing;
 mod world;
 
+mod clues;
+
 pub use agent::ShipAgent;
 pub use brain::Goal;
