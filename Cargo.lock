@@ -2891,6 +2891,9 @@ dependencies = [
 [[package]]
 name = "ship"
 version = "0.1.0"
+dependencies = [
+ "ap-2026-common-code-geometry",
+]
 
 [[package]]
 name = "shlex"
