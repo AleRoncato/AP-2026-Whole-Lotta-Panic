@@ -5,3 +5,5 @@ edition = "2024"
 
 [dependencies]
 geometry.workspace = true
+wind.workspace = true
+shared.workspace = true
